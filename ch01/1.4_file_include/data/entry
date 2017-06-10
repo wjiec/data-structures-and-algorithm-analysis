@@ -1,0 +1,5 @@
+include data\header
+
+[Entry] Hello I'm Body
+
+include data\footer
