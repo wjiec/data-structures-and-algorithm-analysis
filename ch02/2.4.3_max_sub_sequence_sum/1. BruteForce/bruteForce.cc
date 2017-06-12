@@ -60,7 +60,7 @@ void MaxSubSequenceSum<T>::brute_force() {
         for (auto j = i; j < end; ++j) {
             T current_sum = 0;
             // calc current sum
-            for (auto k = i; k < j; ++k) {
+            for (auto k = i; k <= j; ++k) {
                 current_sum += *k;
             }
             // current sum bigger than max sum

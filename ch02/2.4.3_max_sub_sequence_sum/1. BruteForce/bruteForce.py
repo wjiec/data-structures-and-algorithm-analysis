@@ -14,9 +14,10 @@ class MaxSubSequenceSum(object):
 
     def brute_force(self):
         for start_i, start_v in enumerate(self._sequence):
-            for end_i, end_v in enumerate(self._sequence, start_i):
-                if sum(self._sequence[start_i:end_i]) > self._sum:
-                    self._sum = sum(self._sequence[start_i:end_i])
+            for end_i in range(start_i, len(self._sequence)):
+                # iterable range is [...), but output result is [...]
+                if sum(self._sequence[start_i:end_i + 1]) > self._sum:
+                    self._sum = sum(self._sequence[start_i:end_i + 1])
                     self._left_index = start_i
                     self._right_index = end_i
 
