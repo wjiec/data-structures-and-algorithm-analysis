@@ -17,6 +17,9 @@ Polynomial multi_polynomial(const Polynomial poly1, const Polynomial poly2);
 void destroy_polynomial(Polynomial *poly);
 void print_polynomial(const Polynomial poly);
 
+static PolynomialNode delete_node(PolynomialNode start, PolynomialNode node);
+
+
 int main(void) {
     const int poly1_info[][2] = {
         {5, 20}, {4, 17}, {1, 11}, {10, 9}, {14, 7}, {-8, 5}, {10, 0}
@@ -35,13 +38,13 @@ int main(void) {
     Polynomial add_result = add_polynomial(poly1, poly2);
     print_polynomial(add_result); puts("");
 
-//    Polynomial multi_result = multi_polynomial(poly1, poly2);
-//    print_polynomial(multi_result); puts("");
+    Polynomial multi_result = multi_polynomial(poly1, poly2);
+    puts(""); print_polynomial(multi_result); puts("");
 
     destroy_polynomial(&poly1);
     destroy_polynomial(&poly2);
     destroy_polynomial(&add_result);
-//    destroy_polynomial(&multi_result);
+    destroy_polynomial(&multi_result);
 
     return 0;
 }
@@ -127,7 +130,34 @@ Polynomial add_polynomial(const Polynomial poly1, const Polynomial poly2) {
 }
 
 Polynomial multi_polynomial(const Polynomial poly1, const Polynomial poly2) {
+    Polynomial result;
+    PolynomialNode *curr = &result;
 
+    for (PolynomialNode lo1 = poly1; lo1 != NULL; lo1 = lo1->next) {
+        for (PolynomialNode lo2 = poly2; lo2 != NULL; lo2 = lo2->next) {
+            *curr = (PolynomialNode)(malloc(sizeof(polynomial_node_t)));
+
+            (*curr)->coefficient = lo1->coefficient * lo2->coefficient;
+            (*curr)->exponent = lo1->exponent + lo2->exponent;
+            (*curr)->next = NULL;
+
+            curr = &((*curr)->next);
+        }
+    }
+
+    // merge the same exponent
+    for (PolynomialNode it = result; it != NULL; it = it->next) {
+        for (PolynomialNode lo = it->next; lo != NULL;) {
+            if (it->exponent == lo->exponent) {
+                it->coefficient += lo->coefficient;
+                lo = delete_node(it, lo);
+            } else {
+                lo = lo->next;
+            }
+        }
+    }
+
+    return result;
 }
 
 void destroy_polynomial(Polynomial *poly) {
@@ -145,4 +175,21 @@ void print_polynomial(const Polynomial poly) {
             printf(" + ");
         }
     }
+}
+
+static PolynomialNode delete_node(PolynomialNode start, PolynomialNode node) {
+    PolynomialNode curr = start;
+
+    while (curr != NULL && curr->next != node) {
+        curr = curr->next;
+    }
+
+    if (curr != NULL) {
+        curr->next = node->next;
+
+        free(node);
+        return curr->next;
+    }
+
+    return NULL;
 }
