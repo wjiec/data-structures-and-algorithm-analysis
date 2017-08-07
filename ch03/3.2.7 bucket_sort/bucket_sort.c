@@ -57,16 +57,33 @@ void bucket_sort(int array[], const size_t array_size) {
 
     // foreach bits
     while (bucket_array[0]->bucket_size != array_size) {
-        // @TODO bug current
+        // initializing bucket size
+        int origin_size[10] = { 0 };
+        for (int i = 0; i < 10; ++i) {
+            origin_size[i] = bucket_array[i]->bucket_size;
+        }
 
-//        reset_bucket_node_array(bucket_array, &bucket_node_array);
-//
-//        for (int i = 0, init_idx; i < array_size; ++i) {
-//            init_idx = bucket_node_array[i].calc_value % 10;
-//            bucket_node_array[i].calc_value /= 10;
-//
-//            bucket_node_append(&(bucket_array[init_idx]), &(bucket_node_array[i]));
-//        }
+        for (int i = 0; i < 10; ++i) {
+            if (bucket_array[i]->bucket_size == 0) {
+                continue;
+            }
+
+            BucketNode c;
+            int next_idx = 0;
+            while (origin_size[i]--) {
+                // reassign next node
+                c = bucket_array[i]->bucket;
+
+                // calc next bucket
+                next_idx = c->calc_value % 10;
+                c->calc_value /= 10;
+
+                // replace node
+                bucket_array[i]->bucket = c->next;
+                bucket_array[i]->bucket_size -= 1;
+                bucket_node_append(bucket_array + next_idx, c);
+            }
+        }
     }
 
     // buckets to array
@@ -80,6 +97,8 @@ void print_array(const int array[], const size_t array_size) {
 }
 
 static void bucket_node_append(Bucket *bucket, BucketNode node) {
+    node->next = NULL;
+
     if ((*bucket)->bucket == NULL) {
         (*bucket)->bucket = node;
     } else {
@@ -104,12 +123,3 @@ static void bucket_to_array(Bucket *buckets, int array[]) {
     }
 }
 
-static void reset_bucket_node_array(Bucket array[], BucketNode node_array[]) {
-    for (int i = 0, idx = 0; i < 10; ++i) {
-        if (array[i]->bucket_size != 0) {
-            for (BucketNode c = array[i]->bucket; c != NULL; c = c->next) {
-                node_array[idx++] = c;
-            }
-        }
-    }
-}
