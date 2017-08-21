@@ -38,7 +38,7 @@ bool dlist_check_last(const DList list, const DListIter iter) {
 }
 
 DListIter dlist_find(const DList list, const DDataType data) {
-    for (DListIter it = list->header->next; it != list->footer; dlist_next(list, &it)) {
+    for (DListIter it = list->header->next; it != NULL; dlist_next(list, &it)) {
         if (it->data == data) {
             return it;
         }
@@ -61,6 +61,7 @@ DListIter dlist_insert(DList list, DListIter it, DDataType data) {
         if (list->header->next == NULL) {
             // first element
             node->next = NULL;
+            list->footer = node;
         } else {
             // non first element
             node->next = list->header->next;
@@ -71,6 +72,10 @@ DListIter dlist_insert(DList list, DListIter it, DDataType data) {
         node->prev = it;
         node->next = it->next;
         it->next = node;
+
+        if (node->next == NULL) {
+            list->footer = node;
+        }
     }
 
     list->list_size += 1;
@@ -81,9 +86,12 @@ DListIter dlist_delete(DList list, DListIter iter) {
     DListIter new_iter;
 
     if (dlist_check_last(list, iter)) {
+        list->footer = iter->prev;
         new_iter = iter->prev->next = NULL;
     } else {
-        new_iter = iter->prev->next = iter->next;
+        iter->prev->next = iter->next;
+        iter->next->prev = iter->prev;
+        new_iter = iter->next;
     }
 
     free(iter);
