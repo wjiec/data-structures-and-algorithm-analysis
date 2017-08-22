@@ -77,6 +77,10 @@ ListIter list_insert(List list, ListIter iter, DataType data) {
     } else {
         node->next = iter->next;
         iter->next = node;
+
+        if (node->next == NULL) {
+            list->footer = node;
+        }
     }
 
     list->list_size += 1;

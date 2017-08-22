@@ -23,5 +23,23 @@ int main(void) {
     print_list(list);
     print_dlist(dlist);
 
+
+    List index_list = create_list();
+    DList index_dlist = create_dlist();
+
+    list_insert(index_list, list_footer(index_list), 1);
+    list_insert(index_list, list_footer(index_list), 3);
+    list_insert(index_list, list_footer(index_list), 5);
+
+    dlist_insert(index_dlist, dlist_footer(index_dlist), 1);
+    dlist_insert(index_dlist, dlist_footer(index_dlist), 3);
+    dlist_insert(index_dlist, dlist_footer(index_dlist), 5);
+
+    printf("\n3.2 Print the elements in L that are in positions specified by P.\n");
+    print_list(index_list);
+    print_dlist(index_dlist);
+    print_list_by_index(list, index_list);
+    print_dlist_by_index(dlist, index_dlist);
+
     return 0;
 }
