@@ -41,5 +41,19 @@ int main(void) {
     print_list_by_index(list, index_list);
     print_dlist_by_index(dlist, index_dlist);
 
+    list_destroy(&index_list);
+    dlist_destroy(&index_dlist);
+
+
+    ListIter it1 = list_find(list, 7); DListIter dit1 = dlist_find(dlist, 7);
+    ListIter it2 = list_find(list, 2); DListIter dit2 = dlist_find(dlist, 2);
+
+    list_swap_iterator(list, it1, it2);
+    dlist_swap_diterator(dlist, dit1, dit2);
+
+    printf("\n3.3 swap two adjacent elements by adjusting only the pointers\n");
+    print_list(list);
+    print_dlist(dlist);
+
     return 0;
 }

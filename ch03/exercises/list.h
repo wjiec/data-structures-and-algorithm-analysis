@@ -36,4 +36,7 @@ DataType list_retrieve(const ListIter iter);
 ListSize list_get_size(const List list);
 void list_destroy(List *list);
 
+/* 3.3 Swap Pointer */
+void list_swap_iterator(List list, ListIter it1, ListIter it2);
+
 #endif // _LIST_H

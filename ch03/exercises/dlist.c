@@ -139,3 +139,24 @@ void dlist_destroy(DList *list) {
     free(*list);
     *list = NULL;
 }
+
+/* 3.3 Swap pointer */
+void dlist_swap_diterator(DList list, DListIter it1, DListIter it2) {
+    DListIter it1_prev = it1->prev;
+    DListIter it1_next = it1->next;
+
+    DListIter it2_prev = it2->prev;
+    DListIter it2_next = it2->next;
+
+    it1->prev = it2_prev;
+    it1->next = it2_next;
+
+    it2->prev = it1_prev;
+    it2->next = it1_next;
+
+    it1_prev->next = it2;
+    it1_next->prev = it2;
+
+    it2_prev->next = it1;
+    it2_next->prev = it1;
+}

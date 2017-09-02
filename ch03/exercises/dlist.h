@@ -36,4 +36,8 @@ DDataType dlist_retrieve(const DListIter iter);
 DListSize dlist_get_size(const DList list);
 void dlist_destroy(DList *list);
 
+/* 3.3 Swap pointer */
+void dlist_swap_diterator(DList list, DListIter it1, DListIter it2);
+
+
 #endif // _DLIST_H

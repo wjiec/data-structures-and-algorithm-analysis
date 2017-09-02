@@ -140,6 +140,19 @@ void list_destroy(List *list) {
     *list = NULL;
 }
 
+/* 3.3 Swap pointer */
+void list_swap_iterator(List list, ListIter it1, ListIter it2) {
+    ListIter it1_prev = list_find_prev_iter(list, it1);
+    ListIter it2_prev = list_find_prev_iter(list, it2);
+
+    ListIter tmp = it1->next;
+    it1->next = it2->next;
+    it2->next = tmp;
+
+    it1_prev->next = it2;
+    it2_prev->next = it1;
+}
+
 static ListIter list_find_prev_iter(const List list, const ListIter iter) {
     for (ListIter it = list->header; it->next && it != list->footer; list_next(list, &it)) {
         if (it->next == iter) {
