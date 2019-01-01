@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 #include "fs_node.h"
 
@@ -23,6 +24,10 @@ size_t removeChildren(TypicalTree tree, TypicalTreeData data);
 
 TypicalTree findByName(TypicalTree tree, char *name);
 TypicalTreeData retrieveData(TypicalTree tree);
+
+void printTypicalTree(FILE *fp, TypicalTree tree);
+int printTypicalSize(FILE *fp, TypicalTree tree);
+
 
 void destroyTypicalTree(TypicalTree *tree);
 

@@ -35,6 +35,10 @@ int main(void) {
         insertChildren(local, local_gcc);
     }
 
+    printTypicalTree(stdout, tree);
+    puts("size:");
+    printTypicalSize(stdout, tree);
+
     {
         TypicalTree node = findByName(tree, "ls");
         TypicalTreeData ls_data = retrieveData(node);
@@ -56,6 +60,10 @@ int main(void) {
 
     destroyTypicalTree(&tree);
     printf("tree = %p\n", tree);
+
+    printTypicalTree(stdout, tree);
+    puts("size:");
+    printTypicalSize(stdout, tree);
 
     return 0;
 }
